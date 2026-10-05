@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,
+  initial-scale=1,
+  maximum-scale=1,
+  user-scalable=no,
+  viewport-fit=cover"
+>
+
+<title>LAST FINGER</title>
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      #172554 0%,
+      #0b1025 40%,
+      #02030a 100%
+    );
+
+  color: white;
+
+  font-family: Arial, sans-serif;
+
+  touch-action: none;
+}
+
+#game {
+  position: relative;
+
+  width: 100%;
+  height: 100dvh;
+
+  overflow: hidden;
+
+  touch-action: none;
+}
+
+
+/* ==============================
+   TITLE
+============================== */
+
+#title {
+  position: absolute;
+
+  top: 25px;
+  left: 0;
+
+  width: 100%;
+
+  text-align: center;
+
+  font-size: 30px;
+
+  font-weight: 900;
+
+  letter-spacing: 5px;
+
+  color: white;
+
+  text-shadow:
+    0 0 10px #38bdf8,
+    0 0 30px #2563eb;
+
+  pointer-events: none;
+
+  z-index: 100;
+}
+
+
+#status {
+  position: absolute;
+
+  top: 70px;
+  left: 0;
+
+  width: 100%;
+
+  text-align: center;
+
+  font-size: 15px;
+
+  color: #94a3b8;
+
+  pointer-events: none;
+
+  z-index: 100;
+}
+
+
+#counter {
+  position: absolute;
+
+  top: 105px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  padding: 7px 18px;
+
+  border-radius: 30px;
+
+  background: rgba(255,255,255,.08);
+
+  border: 1px solid rgba(255,255,255,.15);
+
+  color: white;
+
+  pointer-events: none;
+
+  z-index: 100;
+}
+
+
+/* ==============================
+   ARENA
+============================== */
+
+#arena {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  touch-action: none;
+
+  z-index: 10;
+}
+
+
+/*
+  START paytida arena tugmani
+  to'sib qo'ymasligi uchun.
+*/
+
+#arena.disabled {
+  pointer-events: none;
+}
+
+
+/* ==============================
+   START
+============================== */
+
+#start {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  width: 220px;
+  height: 75px;
+
+  border: none;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #38bdf8,
+      #2563eb,
+      #7c3aed
+    );
+
+  color: white;
+
+  font-size: 25px;
+
+  font-weight: 900;
+
+  letter-spacing: 4px;
+
+  box-shadow:
+    0 0 25px rgba(56,189,248,.5),
+    0 0 70px rgba(37,99,235,.35);
+
+  z-index: 1000;
+
+  cursor: pointer;
+
+  touch-action: manipulation;
+
+  -webkit-appearance: none;
+}
+
+
+#start:active {
+
+  transform:
+    translate(-50%, -50%)
+    scale(.93);
+}
+
+
+#start.hide {
+  display: none;
+}
+
+
+/* ==============================
+   FINGER
+============================== */
+
+.finger {
+
+  position: absolute;
+
+  width: 75px;
+  height: 75px;
+
+  margin-left: -37.5px;
+  margin-top: -37.5px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  font-size: 27px;
+
+  font-weight: 900;
+
+  color: white;
+
+  background:
+    radial-gradient(
+      circle,
+      #38bdf8,
+      #2563eb 60%,
+      #1e3a8a
+    );
+
+  border: 3px solid white;
+
+  box-shadow:
+    0 0 20px #38bdf8,
+    0 0 50px rgba(37,99,235,.6);
+
+  pointer-events: none;
+
+  z-index: 20;
+
+  transition:
+    left .05s linear,
+    top .05s linear;
+}
+
+
+/* ==============================
+   RANDOM
+============================== */
+
+.finger.random {
+
+  width: 95px;
+  height: 95px;
+
+  margin-left: -47.5px;
+  margin-top: -47.5px;
+
+  background:
+    radial-gradient(
+      circle,
+      #fde047,
+      #f59e0b 55%,
+      #ea580c
+    );
+
+  box-shadow:
+    0 0 25px #facc15,
+    0 0 60px #f59e0b,
+    0 0 110px rgba(245,158,11,.6);
+
+  animation:
+    randomPulse .2s infinite alternate;
+}
+
+
+@keyframes randomPulse {
+
+  from {
+    transform: scale(.9);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
+
+}
+
+
+/* ==============================
+   LOSER
+============================== */
+
+.finger.loser {
+
+  width: 110px;
+  height: 110px;
+
+  margin-left: -55px;
+  margin-top: -55px;
+
+  background:
+    radial-gradient(
+      circle,
+      #ff7777,
+      #dc2626 55%,
+      #7f1d1d
+    );
+
+  box-shadow:
+    0 0 30px #ef4444,
+    0 0 80px #dc2626,
+    0 0 130px rgba(239,68,68,.8);
+
+  animation:
+    loserShake .1s infinite alternate;
+}
+
+
+@keyframes loserShake {
+
+  from {
+    transform:
+      rotate(-5deg)
+      scale(1);
+  }
+
+  to {
+    transform:
+      rotate(5deg)
+      scale(1.1);
+  }
+
+}
+
+
+/* ==============================
+   RESULT
+============================== */
+
+#result {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(.7);
+
+  width: 90%;
+  max-width: 420px;
+
+  padding: 30px;
+
+  text-align: center;
+
+  border-radius: 25px;
+
+  background:
+    rgba(5,10,25,.94);
+
+  border:
+    1px solid rgba(255,255,255,.15);
+
+  box-shadow:
+    0 0 70px rgba(0,0,0,.7);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 500;
+
+  transition: .35s;
+}
+
+
+#result.show {
+
+  opacity: 1;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
+
+  pointer-events: auto;
+}
+
+
+#result h2 {
+
+  font-size: 34px;
+
+  color: #ef4444;
+
+  margin-bottom: 10px;
+
+  text-shadow:
+    0 0 25px #ef4444;
+}
+
+
+#result p {
+
+  color: #cbd5e1;
+
+  margin-bottom: 20px;
+}
+
+
+#again {
+
+  border: none;
+
+  border-radius: 15px;
+
+  padding: 15px 30px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 900;
+
+  touch-action: manipulation;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div id="game">
+
+  <div id="title">
+    LAST FINGER
+  </div>
+
+  <div id="status">
+    START ni bosing
+  </div>
+
+  <div id="counter">
+    0 / 8
+  </div>
+
+
+  <!--
+    BUTUN EKRAN TOUCH ARENA
+  -->
+  <div id="arena" class="disabled"></div>
+
+
+  <button id="start">
+    START
+  </button>
+
+
+  <div id="result">
+
+    <h2 id="resultText">
+      PLAYER 1 LOST
+    </h2>
+
+    <p>
+      Omadsiz barmoq tanlandi!
+    </p>
+
+    <button id="again">
+      PLAY AGAIN
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const game =
+  document.getElementById("game");
+
+const arena =
+  document.getElementById("arena");
+
+const start =
+  document.getElementById("start");
+
+const statusText =
+  document.getElementById("status");
+
+const counter =
+  document.getElementById("counter");
+
+const result =
+  document.getElementById("result");
+
+const resultText =
+  document.getElementById("resultText");
+
+const again =
+  document.getElementById("again");
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let state = "idle";
+
+let players = [];
+
+let nextPlayer = 1;
+
+let waitTimer = null;
+
+let randomTimer = null;
+
+let randomIndex = 0;
+
+let randomRounds = 0;
+
+let audio = null;
+
+
+/* =====================================================
+   AUDIO
+===================================================== */
+
+function initAudio() {
+
+  if (!audio) {
+
+    audio =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+  }
+
+  if (
+    audio.state === "suspended"
+  ) {
+
+    audio.resume();
+
+  }
+
+}
+
+
+function beep(
+  frequency = 500,
+  duration = .07,
+  volume = .04
+) {
+
+  if (!audio) return;
+
+
+  const oscillator =
+    audio.createOscillator();
+
+  const gain =
+    audio.createGain();
+
+
+  oscillator.type =
+    "sine";
+
+  oscillator.frequency.value =
+    frequency;
+
+
+  gain.gain.value =
+    volume;
+
+
+  oscillator.connect(gain);
+
+  gain.connect(
+    audio.destination
+  );
+
+
+  oscillator.start();
+
+  oscillator.stop(
+    audio.currentTime +
+    duration
+  );
+
+}
+
+
+function loserSound() {
+
+  beep(160, .25, .16);
+
+  setTimeout(
+    () => beep(100, .35, .18),
+    150
+  );
+
+  setTimeout(
+    () => beep(60, .5, .20),
+    300
+  );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame(event) {
+
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+
+  if (state !== "idle") {
+    return;
+  }
+
+
+  initAudio();
+
+
+  state = "placing";
+
+
+  players = [];
+
+  nextPlayer = 1;
+
+  randomRounds = 0;
+
+
+  arena.innerHTML = "";
+
+
+  /*
+    ENDI ARENA ISHLAYDI
+  */
+
+  arena.classList.remove(
+    "disabled"
+  );
+
+
+  start.classList.add(
+    "hide"
+  );
+
+
+  statusText.textContent =
+    "1–8 ta barmoqni qo‘ying";
+
+
+  counter.textContent =
+    "0 / 8";
+
+}
+
+
+/*
+  Oddiy click
+*/
+
+start.addEventListener(
+  "click",
+  startGame
+);
+
+
+/*
+  Telefon uchun touchstart.
+
+  START bosilganda ham ishlaydi.
+*/
+
+start.addEventListener(
+  "touchstart",
+  function(event) {
+
+    event.preventDefault();
+
+    startGame(event);
+
+  },
+  {
+    passive: false
+  }
+);
+
+
+/* =====================================================
+   ENG MUHIM QISM
+   MULTI-TOUCH
+===================================================== */
+
+
+/*
+  HAR SAFAR TOUCH BO'LGANDA
+  EKRANDAGI BARCHA TOUCHLARNI
+  O'QIYMIZ.
+*/
+
+arena.addEventListener(
+  "touchstart",
+  function(event) {
+
+    if (state !== "placing") {
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    /*
+      event.touches =
+      HOZIR EKRANDA TURGAN BARCHA BARMOQLAR
+    */
+
+
+    for (
+      let i = 0;
+      i < event.touches.length;
+      i++
+    ) {
+
+      const touch =
+        event.touches[i];
+
+
+      /*
+        8 ta limit
+      */
+
+      if (players.length >= 8) {
+        break;
+      }
+
+
+      /*
+        Bu barmoq oldin qo'yilganmi?
+      */
+
+      const exists =
+        players.some(
+          p =>
+            p.id === touch.identifier
+        );
+
+
+      if (exists) {
+        continue;
+      }
+
+
+      /*
+        YANGI PLAYER
+      */
+
+      const finger =
+        document.createElement(
+          "div"
+        );
+
+
+      finger.className =
+        "finger";
+
+
+      finger.textContent =
+        nextPlayer;
+
+
+      /*
+        To'g'ri joyga qo'yish
+      */
+
+      finger.style.left =
+        touch.clientX + "px";
+
+      finger.style.top =
+        touch.clientY + "px";
+
+
+      arena.appendChild(
+        finger
+      );
+
+
+      players.push({
+
+        id:
+          touch.identifier,
+
+        number:
+          nextPlayer,
+
+        element:
+          finger,
+
+        x:
+          touch.clientX,
+
+        y:
+          touch.clientY
+
+      });
+
+
+      beep(
+        350 +
+        players.length * 60,
+        .06,
+        .04
+      );
+
+
+      nextPlayer++;
+
+    }
+
+
+    /*
+      Counter
+    */
+
+    counter.textContent =
+      players.length +
+      " / 8";
+
+
+    statusText.textContent =
+      players.length +
+      " ta barmoq qo‘yildi";
+
+
+    /*
+      OXIRGI BARMOQ QO'YILGANDAN
+      KEYIN 1.5 SEKUND KUTAMIZ
+    */
+
+    restartWait();
+
+  },
+  {
+    passive: false
+  }
+);
+
+
+/* =====================================================
+   TOUCH MOVE
+===================================================== */
+
+arena.addEventListener(
+  "touchmove",
+  function(event) {
+
+    if (
+      state !== "placing" &&
+      state !== "waiting"
+    ) {
+      return;
+    }
+
+
+    event.preventDefault();
+
+
+    /*
+      BARCHA ACTIVE TOUCHLARNI
+      TEKSHIRAMIZ
+    */
+
+    for (
+      let i = 0;
+      i < event.touches.length;
+      i++
+    ) {
+
+      const touch =
+        event.touches[i];
+
+
+      const player =
+        players.find(
+          p =>
+            p.id ===
+            touch.identifier
+        );
+
+
+      if (!player) {
+        continue;
+      }
+
+
+      player.x =
+        touch.clientX;
+
+      player.y =
+        touch.clientY;
+
+
+      player.element.style.left =
+        touch.clientX + "px";
+
+      player.element.style.top =
+        touch.clientY + "px";
+
+    }
+
+  },
+  {
+    passive: false
+  }
+);
+
+
+/* =====================================================
+   WAIT
+===================================================== */
+
+function restartWait() {
+
+  clearTimeout(
+    waitTimer
+  );
+
+
+  state = "waiting";
+
+
+  waitTimer =
+    setTimeout(
+      function() {
+
+        if (
+          state === "waiting" &&
+          players.length > 0
+        ) {
+
+          startRandom();
+
+        }
+
+      },
+      1500
+    );
+
+}
+
+
+/* =====================================================
+   RANDOM
+===================================================== */
+
+function startRandom() {
+
+  clearTimeout(
+    waitTimer
+  );
+
+
+  state = "random";
+
+  randomRounds = 0;
+
+  randomIndex = -1;
+
+
+  statusText.textContent =
+    "RANDOM...";
+
+
+  randomStep();
+
+}
+
+
+function randomStep() {
+
+  if (
+    state !== "random"
+  ) {
+    return;
+  }
+
+
+  /*
+    Hamma oldingi randomlarni
+    o'chiramiz.
+  */
+
+  players.forEach(
+    player => {
+
+      player.element
+        .classList
+        .remove(
+          "random"
+        );
+
+    }
+  );
+
+
+  /*
+    RANDOM PLAYER
+  */
+
+  randomIndex =
+    Math.floor(
+      Math.random() *
+      players.length
+    );
+
+
+  const selected =
+    players[randomIndex];
+
+
+  selected.element
+    .classList
+    .add(
+      "random"
+    );
+
+
+  beep(
+    400 +
+    Math.random() * 500,
+    .05,
+    .035
+  );
+
+
+  randomRounds++;
+
+
+  /*
+    Sekin -> tez
+  */
+
+  const speed =
+    Math.max(
+      45,
+      240 -
+      randomRounds * 5
+    );
+
+
+  /*
+    50 ta aylanish
+  */
+
+  if (
+    randomRounds >= 50
+  ) {
+
+    randomTimer =
+      setTimeout(
+        finishGame,
+        500
+      );
+
+    return;
+
+  }
+
+
+  randomTimer =
+    setTimeout(
+      randomStep,
+      speed
+    );
+
+}
+
+
+/* =====================================================
+   FINISH
+===================================================== */
+
+function finishGame() {
+
+  clearTimeout(
+    randomTimer
+  );
+
+
+  state = "finished";
+
+
+  const loser =
+    players[randomIndex];
+
+
+  if (!loser) {
+    return;
+  }
+
+
+  /*
+    Faqat loser qoladi.
+  */
+
+  players.forEach(
+    player => {
+
+      if (
+        player !== loser
+      ) {
+
+        player.element.remove();
+
+      }
+
+    }
+  );
+
+
+  loser.element
+    .classList
+    .remove(
+      "random"
+    );
+
+
+  loser.element
+    .classList
+    .add(
+      "loser"
+    );
+
+
+  resultText.textContent =
+    "PLAYER " +
+    loser.number +
+    " LOST";
+
+
+  statusText.textContent =
+    "TANLANDI!";
+
+
+  loserSound();
+
+
+  setTimeout(
+    function() {
+
+      result.classList.add(
+        "show"
+      );
+
+    },
+    700
+  );
+
+}
+
+
+/* =====================================================
+   PLAY AGAIN
+===================================================== */
+
+again.addEventListener(
+  "click",
+  resetGame
+);
+
+
+again.addEventListener(
+  "touchstart",
+  function(event) {
+
+    event.preventDefault();
+
+    resetGame();
+
+  },
+  {
+    passive: false
+  }
+);
+
+
+function resetGame() {
+
+  clearTimeout(
+    waitTimer
+  );
+
+  clearTimeout(
+    randomTimer
+  );
+
+
+  state = "idle";
+
+
+  players = [];
+
+  nextPlayer = 1;
+
+  randomIndex = -1;
+
+  randomRounds = 0;
+
+
+  arena.innerHTML = "";
+
+
+  arena.classList.add(
+    "disabled"
+  );
+
+
+  result.classList.remove(
+    "show"
+  );
+
+
+  start.classList.remove(
+    "hide"
+  );
+
+
+  counter.textContent =
+    "0 / 8";
+
+
+  statusText.textContent =
+    "START ni bosing";
+
+}
+
+
+/* =====================================================
+   PREVENT SCROLL
+===================================================== */
+
+document.addEventListener(
+  "touchmove",
+  function(event) {
+
+    if (
+      state !== "idle"
+    ) {
+
+      event.preventDefault();
+
+    }
+
+  },
+  {
+    passive: false
+  }
+);
+
+
+</script>
+
+</body>
+</html>
